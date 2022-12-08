@@ -28,10 +28,10 @@ BlinkLight:
 	LDX 	#$00
 	STX 	Utport
 	RTS
-	
-	
-; Orsakar en fördröjning på ungefär 1s i simulatorn (vid snabb exekveringshastighet)
-; Ändrar inga register
+
+
+; Causes a delay of approximately 1s in the simulator (at fast execution speed)
+; Does not modify any registers
 Delay1s:
 	PSHA
 	PSHX
@@ -50,6 +50,7 @@ Delay1s_loop:
 	PULA
 	RTS
 
-; Data - Variabler
+; Data - Variables
 Count:
 	RMB	1
+
