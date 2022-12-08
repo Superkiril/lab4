@@ -1,0 +1,55 @@
+ORG $FF
+FCB $20
+
+ORG $20
+
+Main:
+	JSR 	ReadAscii
+	JSR	BlinkLight
+	BRA	Main
+
+
+ReadAscii:
+	ANDCC 	#$00
+	LDA 	Inport
+	RORA
+	BCC 	ReadAscii
+	NOP
+	RTS
+
+
+BlinkLight:
+	PSHA
+	LDX  	#$FF
+	STX  	Utport
+	EORA
+	BNE	Delay1s_loop2
+	BCS	Delay1s
+	LDX 	#$00
+	STX 	Utport
+	RTS
+	
+	
+; Orsakar en fördröjning på ungefär 1s i simulatorn (vid snabb exekveringshastighet)
+; Ändrar inga register
+Delay1s:
+	PSHA
+	PSHX
+	PSHC
+	LDX	#DelayC2
+Delay1s_loop2:
+	LDA	#DelayC1
+Delay1s_loop:
+	DECA
+	BNE	Delay1s_loop
+	LEAX	-1,X
+	CMPX	#0
+	BNE	Delay1s_loop2
+	PULC
+	PULX
+	PULA
+	RTS
+
+; Data - Variabler
+Count:
+	RMB	1
